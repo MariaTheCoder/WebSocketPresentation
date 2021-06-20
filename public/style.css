@@ -1,0 +1,26 @@
+.buttons {
+  display: flexbox;
+  width: 50mm;
+  height: 15mm;
+  padding: 2.5px;
+  border: none;
+  margin: 5em;
+  color: white;
+  font-weight: 300;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: medium;
+  border-radius: 15px;
+  text-align: center;
+}
+#green_btn {
+  background-color: rgb(12, 184, 12);
+}
+#green_btn:hover {
+  background-color: rgb(8, 117, 8);
+}
+#red_btn {
+  background-color: rgb(245, 65, 65);
+}
+#red_btn:hover {
+  background-color: rgb(196, 26, 26);
+}
