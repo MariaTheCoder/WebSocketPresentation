@@ -16,24 +16,10 @@ app.get("/", function (req, res) {
   res.sendFile("index.html");
 });
 
-const activeUsers = new Set();
-
-// // Whenever someone connects this gets executed
-// io.on("connection", function (socket) {
-//   console.log("A user connected");
-
-//   socket.on("new user", function (data) {
-//     socket.userId = data;
-//     activeUsers.add(data);
-//     io.emit("new user", [...activeUsers]);
-//   });
-
-//   //Whenever someone disconnects this piece of code gets executed
-//   socket.on("disconnect", () => {
-//     activeUsers.delete(socket.userId);
-//     io.emit("user disconnected", socket.userId);
-//   });
-// });
+// Whenever someone connects this gets executed
+io.on("connection", (socket) => {
+  console.log("A user connected", socket.id);
+});
 
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
