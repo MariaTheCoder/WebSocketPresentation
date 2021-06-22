@@ -5,16 +5,19 @@ const connectedClients = document.getElementById("active_users");
 
 document.getElementById("submit_btn").addEventListener("click", () => {
   const submittedName = document.getElementById("name_input").value;
+  connectedClients.innerHTML = "";
+
+  // change text of button upon submitted name
+  document.getElementById("submit_btn").innerText = 'Change name';
 
   socket.emit("submit", {
     id: socket.id,
     name: submittedName,
   });
   
-  const newUser = document.createElement("li")
+  const newUser = document.createElement("li");
   newUser.innerHTML = submittedName;
   connectedClients.appendChild(newUser);
-
 });
 
 // Emit events
