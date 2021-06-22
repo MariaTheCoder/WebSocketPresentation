@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const socket = require("socket.io");
 
@@ -6,6 +7,8 @@ const port = 3000;
 const app = express();
 const server = require("http").createServer(app);
 
+let presenter;
+
 // Static files
 app.use(express.static("public"));
 
@@ -13,15 +16,23 @@ app.use(express.static("public"));
 const io = socket(server);
 
 app.get("/", function (req, res) {
-  res.sendFile("C:/Users/Bruger/code/june_project/public/clients.html");
+  res.sendFile(path.resolve("./public/clients.html"));
 });
 
 // Whenever someone connects this gets executed
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
 
-  socket.on("completion", (data) => {
-    io.sockets.emit("completion", data);
+  if (socket.handshake.query["my-secret"] === "I am the dictator!") {
+    presenter = socket;
+
+    presenter.on("reset", () => {
+      io.emit("reset");
+    });
+  }
+
+  socket.on("status", (data) => {
+    presenter.emit("completion", data);
   });
 });
 
