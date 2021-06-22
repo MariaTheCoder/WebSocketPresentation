@@ -29,11 +29,11 @@ io.on("connection", (socket) => {
     presenter.on("reset", () => {
       io.emit("reset");
     });
-  }
 
-  socket.on("status", (data) => {
-    presenter.emit("completion", data);
-  });
+    socket.on("status", (data) => {
+      presenter.emit("completion", data);
+    });
+  }
 });
 
 server.listen(port, () => {
