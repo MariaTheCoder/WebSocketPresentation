@@ -3,7 +3,7 @@ const express = require("express");
 const socket = require("socket.io");
 
 // App setup
-const port = 3000;
+const config = require('./server.config.json');
 const app = express();
 const server = require("http").createServer(app);
 
@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
   }
 });
 
-server.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
-  console.log(`http://localhost:${port}`);
+server.listen(config.port, () => {
+  console.log(`Server listening on port ${config.port}`);
+  console.log(`http://localhost:${config.port}`);
 });
