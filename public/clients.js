@@ -4,7 +4,7 @@ const socket = io();
 const activeUsers = document.getElementById("active_users");
 
 // Emit events
-document.getElementById("green_btn").addEventListener("click", function () {
+document.getElementById("green_btn").addEventListener("click", () => {
   socket.emit("status", {
     id: socket.id,
     finished: true,
@@ -13,7 +13,7 @@ document.getElementById("green_btn").addEventListener("click", function () {
 });
 
 // Emit events
-document.getElementById("red_btn").addEventListener("click", function () {
+document.getElementById("red_btn").addEventListener("click", () => {
   socket.emit("status", {
     id: socket.id,
     finished: false,
