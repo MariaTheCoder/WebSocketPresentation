@@ -6,8 +6,12 @@ const socket = io({
   },
 });
 
-socket.on("completion", (data) => {
-  console.log("completion", data);
+socket.on("submit", (data) => {
+  console.log("submit", data);
+});
+
+socket.on("status", (data) => {
+  console.log("status", data);
 });
 
 document.getElementById("reset").addEventListener("click", () => {
