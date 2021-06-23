@@ -29,12 +29,17 @@ io.on("connection", (socket) => {
     presenter.on("reset", () => {
       io.emit("reset");
     });
+  };
 
-    socket.on("status", (data) => {
-      presenter.emit("completion", data);
-    });
-  }
+  socket.on("submit", (data) => {
+    if(presenter) presenter.emit("submit", data);
+  });
+
+  socket.on("status", (data) => {
+    if(presenter) presenter.emit("status", data);
+  });
 });
+
 
 server.listen(config.port, () => {
   console.log(`Server listening on port ${config.port}`);

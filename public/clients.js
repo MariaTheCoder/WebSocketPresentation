@@ -11,7 +11,6 @@ document.getElementById("submit_btn").addEventListener("click", () => {
   document.getElementById("submit_btn").innerText = 'Change name';
 
   socket.emit("submit", {
-    id: socket.id,
     name: submittedName,
   });
   
