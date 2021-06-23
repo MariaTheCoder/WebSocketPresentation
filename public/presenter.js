@@ -9,9 +9,12 @@ const socket = io({
 const listOfConnectedUsers = document.getElementById("connected_users");
 
 socket.on("submit", (data) => {
-  const newUser = document.createElement("li");
-  newUser.innerHTML = data.name;
-  listOfConnectedUsers.appendChild(newUser);
+  for (let i = 0; i < data.length; i++) {
+    const newUser = document.createElement("li");
+    newUser.innerHTML = data[i].name;
+    listOfConnectedUsers.appendChild(newUser);
+    
+  }
 });
 
 socket.on("status", (data) => {
