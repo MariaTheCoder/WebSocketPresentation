@@ -6,8 +6,12 @@ const socket = io({
   },
 });
 
+const listOfConnectedUsers = document.getElementById("connected_users");
+
 socket.on("submit", (data) => {
-  console.log("submit", data);
+  const newUser = document.createElement("li");
+  newUser.innerHTML = data.name;
+  listOfConnectedUsers.appendChild(newUser);
 });
 
 socket.on("status", (data) => {
