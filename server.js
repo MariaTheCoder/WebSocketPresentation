@@ -17,6 +17,7 @@ const io = socket(server);
 
 // store connected clients in an array
 const connectedUsers = [];
+const connectedPresenters = [];
 
 app.get("/", function (req, res) {
   res.sendFile(path.resolve("./public/clients.html"));
@@ -32,6 +33,11 @@ io.on("connection", (socket) => {
     presenter.on("reset", () => {
       io.emit("reset");
     });
+
+    connectedPresenters.push({
+      id: socket.id,
+      name: "",
+    })
   } else {
     connectedUsers.push({
       id: socket.id,
@@ -40,8 +46,15 @@ io.on("connection", (socket) => {
   }
 
   socket.on("submit", (data) => {
-    for (let i = 0; i < connectedUsers.length; i++) {
-      if(connectedUsers[i].id === socket.id) connectedUsers[i].name = data.name;
+
+    if(presenter) {
+      for (let i = 0; i < connectedPresenters.length; i++) {
+        if(connectedPresenters[i].id === socket.id) connectedPresenters[i].name = data.name;
+      }
+    } else {
+      for (let i = 0; i < connectedUsers.length; i++) {
+        if(connectedUsers[i].id === socket.id) connectedUsers[i].name = data.name;
+      }
     }
   });
 
@@ -53,7 +66,6 @@ io.on("connection", (socket) => {
   });
 
 });
-
 
 server.listen(config.port, () => {
   console.log(`Server listening on port ${config.port}`);
