@@ -24,16 +24,7 @@ app.get("/", function (req, res) {
 
 // Whenever someone connects this gets executed
 io.on("connection", (socket) => {
-  console.log("A user connected", socket.id);
-
-  socket.on("submit", (data) => {
-    for (let i = 0; i < connectedUsers.length; i++) {
-      if(connectedUsers[i].id === socket.id) connectedUsers[i].name = data.name;
-    }
-
-    if(presenter) presenter.emit("submit", connectedUsers);
-    console.log(connectedUsers);
-  });
+  // console.log("A user connected", socket.id);
 
   if (socket.handshake.query["my-secret"] === "I am the dictator!") {
     presenter = socket;
@@ -47,6 +38,15 @@ io.on("connection", (socket) => {
       name: "",
     });
   }
+
+  socket.on("submit", (data) => {
+    for (let i = 0; i < connectedUsers.length; i++) {
+      if(connectedUsers[i].id === socket.id) connectedUsers[i].name = data.name;
+    }
+  });
+
+  if(presenter) presenter.emit("submit", connectedUsers) 
+  console.log(connectedUsers);
 
   socket.on("status", (data) => {
     if(presenter) presenter.emit("status", data);
