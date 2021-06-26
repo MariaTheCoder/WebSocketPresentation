@@ -16,7 +16,7 @@ app.use(express.static("public"));
 const io = socket(server);
 
 // store connected clients in an array
-const connectedUsers = [];
+const connectedClients = [];
 const connectedPresenters = [];
 
 app.get("/", function (req, res) {
@@ -39,27 +39,27 @@ io.on("connection", (socket) => {
       name: "",
     })
   } else {
-    connectedUsers.push({
+    connectedClients.push({
       id: socket.id,
       name: "",
     });
   }
 
-  socket.on("submit", (data) => {
+  socket.on("submitClients", (data) => {
 
-    if(presenter) {
-      for (let i = 0; i < connectedPresenters.length; i++) {
-        if(connectedPresenters[i].id === socket.id) connectedPresenters[i].name = data.name;
-      }
-    } else {
-      for (let i = 0; i < connectedUsers.length; i++) {
-        if(connectedUsers[i].id === socket.id) connectedUsers[i].name = data.name;
-      }
+    for (let i = 0; i < connectedClients.length; i++) {
+      if(connectedClients[i].id === socket.id) connectedClients[i].name = data.name;
     }
   });
 
-  if(presenter) presenter.emit("submit", connectedUsers) 
-  console.log(connectedUsers);
+  socket.on("submitPresenters", (data) => {
+    for (let i = 0; i < connectedPresenters.length; i++) {
+      if(connectedPresenters[i].id === socket.id) connectedPresenters[i].name = data.name;
+    }
+  })
+
+  if(presenter) presenter.emit("submitClients", connectedClients) 
+  console.log(connectedClients);
 
   socket.on("status", (data) => {
     if(presenter) presenter.emit("status", data);
