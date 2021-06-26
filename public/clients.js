@@ -1,22 +1,25 @@
 // Make socket connection back-end
 const socket = io();
 
-const connectedClients = document.getElementById("active_users");
+const displayClient = document.getElementById("displayConnectedUser");
 
 document.getElementById("submit_btn").addEventListener("click", () => {
-  const submittedName = document.getElementById("name_input").value;
-  connectedClients.innerHTML = "";
+  displayClient.innerHTML = "";
+  const name = document.getElementById("name_input").value;
 
-  // change text of button upon submitted name
-  document.getElementById("submit_btn").innerText = 'Change name';
+  if(document.getElementById("submit_btn").innerText === 'Submit') {    
+    // change text of button upon submitted name
+    document.getElementById("submit_btn").innerText = 'Change name';
+  };
 
   socket.emit("submit", {
-    name: submittedName,
+    id: socket.id,
+    name: name,
   });
-  
+
   const newUser = document.createElement("li");
-  newUser.innerHTML = submittedName;
-  connectedClients.appendChild(newUser);
+  newUser.innerHTML = "You are connected as: " + name;
+  displayClient.appendChild(newUser);
 });
 
 // Emit events
