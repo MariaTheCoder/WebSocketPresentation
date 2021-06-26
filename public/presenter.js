@@ -9,11 +9,12 @@ const socket = io({
 const listOfConnectedUsers = document.getElementById("connected_users");
 
 socket.on("submit", (data) => {
+
   for (let i = 0; i < data.length; i++) {
-    const newUser = document.createElement("li");
-    newUser.innerHTML = data[i].name;
-    listOfConnectedUsers.appendChild(newUser);
-    
+    const user = document.createElement("li");
+    user.innerHTML = data[i].name;
+    listOfConnectedUsers.appendChild(user);
+    console.log('Connected user: ' + data[i].name);
   }
 });
 
