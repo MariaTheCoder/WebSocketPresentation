@@ -17,9 +17,9 @@ document.getElementById("submit_btn").addEventListener("click", () => {
     name: name,
   });
 
-  const newUser = document.createElement("li");
-  newUser.innerHTML = "You are connected as: " + name;
-  displayClient.appendChild(newUser);
+  const connectedClient = document.createElement("li");
+  connectedClient.innerHTML = "You are connected as: " + name;
+  displayClient.appendChild(connectedClient);
 });
 
 // Emit events
