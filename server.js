@@ -45,18 +45,18 @@ io.on("connection", (socket) => {
 
   socket.on("submitClients", submitClients);
 
-  socket.on("submitPresenters", (data) => {
-    for (let i = 0; i < connectedPresenters.length; i++) {
-      if(connectedPresenters[i].id === socket.id) connectedPresenters[i].name = data.name;
-    }
-    console.log(connectedPresenters);
-  });
-
-
-
-  // socket.on("status", (data) => {
-  //   if(presenter) presenter.emit("status", data);
+  // socket.on("submitPresenters", (data) => {
+  //   for (let i = 0; i < connectedPresenters.length; i++) {
+  //     if(connectedPresenters[i].id === socket.id) connectedPresenters[i].name = data.name;
+  //   }
+  //   console.log(connectedPresenters);
   // });
+
+
+
+  socket.on("status", (data) => {
+    if(presenter) presenter.emit("status", data);
+  });
 
 });
 
