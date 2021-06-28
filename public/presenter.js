@@ -6,7 +6,7 @@ const socket = io({
   },
 });
 
-const listOfConnectedUsers = document.getElementById("connected_clients");
+const listOfConnectedClients = document.getElementById("connected_clients");
 // const displayPresenter = document.getElementById("displayConnectedPresenter");
 
 // // We also want to list connected presenters
@@ -30,15 +30,24 @@ const listOfConnectedUsers = document.getElementById("connected_clients");
 //   displayPresenter.appendChild(presenter);
 // });
 
+// socket.on("disconnect", (data) => {
+
+//   for (let i = 0; i < data.length; i++) {
+//     const disconnectedClient = data[i];
+    
+//     if(disconnectedClient.id === socket.id) listOfConnectedClients.removeChild(listOfConnectedClients.childNodes[i]);
+//   }
+// })
+
 socket.on("submitClients", (data) => {
 
-  listOfConnectedUsers.innerHTML = "";
+  listOfConnectedClients.innerHTML = "";
 
   for (let i = 0; i < data.length; i++) {
-    const user = document.createElement("li");
+    const client = document.createElement("li");
 
-    user.innerHTML = data[i].name ? data[i].name : "Unnamed user.";
-    listOfConnectedUsers.appendChild(user);
+    client.innerHTML = data[i].name ? data[i].name : "Unnamed user.";
+    listOfConnectedClients.appendChild(client);
     console.log('Connected client: ' + data[i].name);
   }
 });
