@@ -7,8 +7,6 @@ const config = require('./server.config.json');
 const app = express();
 const server = require("http").createServer(app);
 
-let presenter;
-
 // Static files
 app.use(express.static("public"));
 
@@ -28,16 +26,16 @@ io.on("connection", (socket) => {
   // console.log("A user connected", socket.id);
 
   if (socket.handshake.query["my-secret"] === "I am the dictator!") {
-    presenter = socket;
+    const presenter = socket;
 
     presenter.on("reset", () => {
       io.emit("reset");
     });
 
-    connectedPresenters.push({
-      id: socket.id,
-      name: "",
-    })
+    console.log(connectedClients);
+    presenter.emit("submitClients", connectedClients); 
+    connectedPresenters.push(presenter);
+
   } else {
     connectedClients.push({
       id: socket.id,
@@ -45,25 +43,20 @@ io.on("connection", (socket) => {
     });
   }
 
-  socket.on("submitClients", (data) => {
-
-    for (let i = 0; i < connectedClients.length; i++) {
-      if(connectedClients[i].id === socket.id) connectedClients[i].name = data.name;
-    }
-  });
+  socket.on("submitClients", submitClients);
 
   socket.on("submitPresenters", (data) => {
     for (let i = 0; i < connectedPresenters.length; i++) {
       if(connectedPresenters[i].id === socket.id) connectedPresenters[i].name = data.name;
     }
-  })
-
-  if(presenter) presenter.emit("submitClients", connectedClients) 
-  console.log(connectedClients);
-
-  socket.on("status", (data) => {
-    if(presenter) presenter.emit("status", data);
+    console.log(connectedPresenters);
   });
+
+
+
+  // socket.on("status", (data) => {
+  //   if(presenter) presenter.emit("status", data);
+  // });
 
 });
 
@@ -71,3 +64,19 @@ server.listen(config.port, () => {
   console.log(`Server listening on port ${config.port}`);
   console.log(`http://localhost:${config.port}`);
 });
+
+/**
+ * Handler for the 'submitClients' websocket event. Submits updated list of clients to all presenters
+ * @param {object} data 
+ */
+function submitClients(data) {
+  for (let i = 0; i < connectedClients.length; i++) {
+    if(connectedClients[i].id === this.id) connectedClients[i].name = data.name;
+  }
+  console.log(connectedClients);
+
+  for (let i = 0; i < connectedPresenters.length; i++) {
+    const presenter = connectedPresenters[i];
+    presenter.emit("submitClients", connectedClients);
+  }
+}
