@@ -30,14 +30,14 @@ const listOfConnectedClients = document.getElementById("connected_clients");
 //   displayPresenter.appendChild(presenter);
 // });
 
-// socket.on("disconnect", (data) => {
+socket.on("disconnect", (data) => {
 
-//   for (let i = 0; i < data.length; i++) {
-//     const disconnectedClient = data[i];
+  for (let i = 0; i < data.length; i++) {
+    const disconnectedClient = data[i];
     
-//     if(disconnectedClient.id === socket.id) listOfConnectedClients.removeChild(listOfConnectedClients.childNodes[i]);
-//   }
-// })
+    if(disconnectedClient.id === socket.id) listOfConnectedClients.removeChild(listOfConnectedClients.childNodes[i]);
+  }
+})
 
 socket.on("submitClients", (data) => {
 

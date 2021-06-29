@@ -25,25 +25,49 @@ app.get("/", function (req, res) {
 io.on("connection", (socket) => {
   // console.log("A user connected", socket.id);
 
+  // this if determines if the connected socket is a presenter
   if (socket.handshake.query["my-secret"] === "I am the dictator!") {
     const presenter = socket;
 
     presenter.on("reset", () => {
       io.emit("reset");
     });
-
+    
     console.log(connectedClients);
     presenter.emit("submitClients", connectedClients); 
     connectedPresenters.push(presenter);
 
   } else {
+
+    socket.on("disconnect", () => {
+      console.log("disconnect");
+      for (let i = 0; i < connectedClients.length; i++) {
+        const client = connectedClients[i];
+        // console.log(client.id + "just disconnected")
+  
+        if(client.id === socket.id) {
+          connectedClients.splice(i, 1);
+        }
+      }
+
+      connectedPresenters.forEach(element => {
+        console.log("presenter gets ", connectedClients);
+        element.emit("clientDisconnect", connectedClients);
+      });
+    })
+
     connectedClients.push({
       id: socket.id,
       name: "",
     });
   }
 
+
   socket.on("submitClients", submitClients);
+
+  socket.on("status", (data) => {
+    if(presenter) presenter.emit("status", data);
+  });
 
   // socket.on("submitPresenters", (data) => {
   //   for (let i = 0; i < connectedPresenters.length; i++) {
@@ -51,12 +75,6 @@ io.on("connection", (socket) => {
   //   }
   //   console.log(connectedPresenters);
   // });
-
-
-
-  socket.on("status", (data) => {
-    if(presenter) presenter.emit("status", data);
-  });
 
 });
 
