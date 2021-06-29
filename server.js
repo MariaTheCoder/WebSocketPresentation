@@ -23,7 +23,6 @@ app.get("/", function (req, res) {
 
 // Whenever someone connects this gets executed
 io.on("connection", (socket) => {
-  // console.log("A user connected", socket.id);
 
   // this if determines if the connected socket is a presenter
   if (socket.handshake.query["my-secret"] === "I am the dictator!") {
@@ -32,36 +31,20 @@ io.on("connection", (socket) => {
     presenter.on("reset", () => {
       io.emit("reset");
     });
-    
+
     console.log(connectedClients);
     presenter.emit("submitClients", connectedClients); 
     connectedPresenters.push(presenter);
 
   } else {
 
-    socket.on("disconnect", () => {
-      console.log("disconnect");
-      for (let i = 0; i < connectedClients.length; i++) {
-        const client = connectedClients[i];
-        // console.log(client.id + "just disconnected")
-  
-        if(client.id === socket.id) {
-          connectedClients.splice(i, 1);
-        }
-      }
-
-      connectedPresenters.forEach(element => {
-        console.log("presenter gets ", connectedClients);
-        element.emit("clientDisconnect", connectedClients);
-      });
-    })
+    socket.on("disconnect", clientDisconnect)
 
     connectedClients.push({
       id: socket.id,
       name: "",
     });
   }
-
 
   socket.on("submitClients", submitClients);
 
@@ -97,4 +80,23 @@ function submitClients(data) {
     const presenter = connectedPresenters[i];
     presenter.emit("submitClients", connectedClients);
   }
+}
+
+/**
+ * Handler for the 'disconnect' websocket event. Deletes a disconnected client from array connectedClients
+ */
+function clientDisconnect() {
+  console.log("disconnect");
+  
+  for (let i = 0; i < connectedClients.length; i++) {
+    const client = connectedClients[i];
+    // console.log(client.id + "just disconnected")
+  
+    if(client.id === this.id) connectedClients.splice(i, 1)
+  }
+
+  connectedPresenters.forEach(element => {
+    console.log("presenter gets ", connectedClients);
+    element.emit("clientDisconnect", connectedClients);
+  });
 }
