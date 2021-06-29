@@ -38,6 +38,23 @@ io.on("connection", (socket) => {
 
   } else {
 
+    socket.on("submitClients", submitClients);
+
+    socket.on("status", (data) => {
+
+      connectedClients.forEach(element => {
+        if(element.id === socket.id) {
+          element.finished = data.finished; 
+          element.help = data.help;    
+        }
+      });
+    
+      for (let i = 0; i < connectedPresenters.length; i++) {
+        const presenter = connectedPresenters[i];
+        presenter.emit("clientStatus", connectedClients);
+      }
+    });
+
     socket.on("disconnect", clientDisconnect)
 
     connectedClients.push({
@@ -45,12 +62,6 @@ io.on("connection", (socket) => {
       name: "",
     });
   }
-
-  socket.on("submitClients", submitClients);
-
-  socket.on("status", (data) => {
-    if(presenter) presenter.emit("status", data);
-  });
 
   // socket.on("submitPresenters", (data) => {
   //   for (let i = 0; i < connectedPresenters.length; i++) {

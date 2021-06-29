@@ -7,6 +7,7 @@ const socket = io({
 });
 
 const listOfConnectedClients = document.getElementById("connected_clients");
+const listOfClientStatus = document.getElementById("client_status");
 // const displayPresenter = document.getElementById("displayConnectedPresenter");
 
 // // We also want to list connected presenters
@@ -29,6 +30,28 @@ const listOfConnectedClients = document.getElementById("connected_clients");
 //   presenter.innerHTML = "You are connected as: " + name;
 //   displayPresenter.appendChild(presenter);
 // });
+
+socket.on("clientStatus", (data) => {
+  // console.log(data);
+
+  listOfClientStatus.innerHTML = "";
+  
+  for (let i = 0; i < data.length; i++) {
+    console.log(data[i]);
+    const statusUpdate = document.createElement("li");
+
+    if(data[i].help === true) {
+      statusUpdate.innerHTML = data[i].name + '<p> needs help</p>'
+      listOfClientStatus.appendChild(statusUpdate);
+    } else if(data[i].help === false) {
+      statusUpdate.innerHTML = data[i].name + '<p> finished the task successfully</p>'
+      listOfClientStatus.appendChild(statusUpdate);
+    } else {
+      statusUpdate.innerHTML = data[i].name + '<p> has not updated their status yet</p>'
+      listOfClientStatus.appendChild(statusUpdate);
+    }
+  }
+})
 
 socket.on("disconnect", (data) => {
 
@@ -61,10 +84,6 @@ socket.on("submitClients", (data) => {
 //     console.log('Connected presenter: ' + data[i].name);
 //   }
 // });
-
-socket.on("status", (data) => {
-  console.log("status", data);
-});
 
 document.getElementById("reset").addEventListener("click", () => {
   socket.emit("reset");
