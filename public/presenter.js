@@ -41,13 +41,13 @@ socket.on("clientStatus", (data) => {
     const statusUpdate = document.createElement("li");
 
     if(data[i].help === true) {
-      statusUpdate.innerHTML = data[i].name + '<p> needs help</p>'
+      statusUpdate.innerHTML = data[i].name + '<p>&nbsp;needs help</p>'
       listOfClientStatus.appendChild(statusUpdate);
     } else if(data[i].help === false) {
-      statusUpdate.innerHTML = data[i].name + '<p> finished the task successfully</p>'
+      statusUpdate.innerHTML = data[i].name + '<p>&nbsp;finished the task successfully</p>'
       listOfClientStatus.appendChild(statusUpdate);
     } else {
-      statusUpdate.innerHTML = data[i].name + '<p> has not updated their status yet</p>'
+      statusUpdate.innerHTML = data[i].name + '<p>&nbsp;has not updated their status yet</p>'
       listOfClientStatus.appendChild(statusUpdate);
     }
   }
