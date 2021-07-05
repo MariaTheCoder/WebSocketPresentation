@@ -5,6 +5,9 @@ const displayClient = document.getElementById("displayConnectedUser");
 
 document.getElementById("submit_btn").addEventListener("click", () => {
   displayClient.innerHTML = "";
+
+  if(document.getElementById("name_input").value === "") alert("Please type in a name before submitting");
+
   const name = document.getElementById("name_input").value;
 
   if(document.getElementById("submit_btn").innerText === 'Submit') {    
