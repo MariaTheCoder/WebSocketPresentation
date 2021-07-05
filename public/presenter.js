@@ -31,13 +31,15 @@ const listOfClientStatus = document.getElementById("client_status");
 //   displayPresenter.appendChild(presenter);
 // });
 
-socket.on("clientStatus", (data) => {
-  // console.log(data);
+document.getElementById("reset").addEventListener("click", () => {
+  socket.emit("reset");
+});
 
+socket.on("clientStatus", (data) => {
+  console.log(data);
   listOfClientStatus.innerHTML = "";
   
   for (let i = 0; i < data.length; i++) {
-    console.log(data[i]);
     const statusUpdate = document.createElement("li");
 
     if(data[i].help === true) {
@@ -47,7 +49,7 @@ socket.on("clientStatus", (data) => {
       statusUpdate.innerHTML = data[i].name + '<p>&nbsp;finished the task successfully</p>'
       listOfClientStatus.appendChild(statusUpdate);
     } else {
-      statusUpdate.innerHTML = data[i].name + '<p>&nbsp;has not updated their status yet</p>'
+      statusUpdate.innerHTML = data[i].name + '<p>&nbsp;has not updated their status yet</p>';
       listOfClientStatus.appendChild(statusUpdate);
     }
   }
@@ -65,6 +67,7 @@ socket.on("disconnect", (data) => {
 socket.on("submitClients", (data) => {
 
   listOfConnectedClients.innerHTML = "";
+  // listOfClientStatus.innerHTML = "";
 
   for (let i = 0; i < data.length; i++) {
     const client = document.createElement("li");
@@ -72,7 +75,24 @@ socket.on("submitClients", (data) => {
     client.innerHTML = data[i].name ? data[i].name : "Unnamed user.";
     listOfConnectedClients.appendChild(client);
     console.log('Connected client: ' + data[i].name);
+
+    // const defaultStatus = document.createElement("li");
+    // defaultStatus.innerHTML = data[i].name + '<p>&nbsp;has not updated their status yet</p>';
+    // listOfClientStatus.appendChild(defaultStatus);
   }
+});
+
+socket.on("resetStatus", (data) => {
+  console.log(data);
+
+  listOfClientStatus.innerHTML = "";
+
+  data.forEach(element => {
+    const resetClientStatus = document.createElement("li");
+
+    resetClientStatus.innerHTML = element.name + '<p>&nbsp;has not updated their status yet</p>'; 
+    listOfClientStatus.appendChild(resetClientStatus);
+  });
 });
 
 // socket.on("submitPresenters", (data) => {
@@ -85,6 +105,5 @@ socket.on("submitClients", (data) => {
 //   }
 // });
 
-document.getElementById("reset").addEventListener("click", () => {
-  socket.emit("reset");
-});
+
+

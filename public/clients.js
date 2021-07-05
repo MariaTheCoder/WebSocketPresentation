@@ -40,6 +40,6 @@ document.getElementById("red_btn").addEventListener("click", () => {
   });
 });
 
-socket.on("reset", () => {
+socket.on("resetStatus", () => {
   console.log("The Dictator has resetted everything!");
 });

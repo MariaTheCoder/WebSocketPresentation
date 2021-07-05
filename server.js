@@ -29,7 +29,13 @@ io.on("connection", (socket) => {
     const presenter = socket;
 
     presenter.on("reset", () => {
-      io.emit("reset");
+
+      connectedClients.forEach(element => {
+        element.help = "reset";
+        element.finished = "reset";
+      });
+
+      io.emit("resetStatus", connectedClients);
     });
 
     console.log(connectedClients);
