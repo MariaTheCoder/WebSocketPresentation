@@ -36,12 +36,27 @@ document.getElementById("green_btn").addEventListener("click", () => {
 
 // Emit events
 document.getElementById("red_btn").addEventListener("click", () => {
+  document.getElementById("red_btn").style.display = "none";
+  document.getElementById("orange_btn").style.display = "inline-flex";
+
   socket.emit("status", {
     id: socket.id,
     finished: false,
     help: true,
   });
 });
+
+// Emit events
+document.getElementById("orange_btn").addEventListener("click", () => {
+  document.getElementById("red_btn").style.display = "inline-flex";
+  document.getElementById("orange_btn").style.display = "none";
+
+  socket.emit("status", {
+    id: socket.id,
+    finished: true,
+    help: false,
+  });
+})
 
 socket.on("resetStatus", () => {
   console.log("The Dictator has resetted everything!");
