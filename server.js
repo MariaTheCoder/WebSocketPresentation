@@ -66,7 +66,7 @@ io.on("connection", (socket) => {
 
     connectedClients.push({
       id: socket.id,
-      name: "Unnamed User",
+      name: "Unnamed user",
     });
   }
 
