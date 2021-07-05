@@ -24,3 +24,9 @@
 #red_btn:hover {
   background-color: rgb(196, 26, 26);
 }
+#orange_btn {
+  background-color: rgba(255, 153, 0, 0.993);
+}
+#orange_btn:hover {
+  background-color: rgba(255, 145, 0, 0.747);
+}
