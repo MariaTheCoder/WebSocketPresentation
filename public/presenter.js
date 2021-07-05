@@ -55,13 +55,11 @@ socket.on("clientStatus", (data) => {
   }
 })
 
-socket.on("disconnect", (data) => {
-
-  for (let i = 0; i < data.length; i++) {
-    const disconnectedClient = data[i];
-    
-    if(disconnectedClient.id === socket.id) listOfConnectedClients.removeChild(listOfConnectedClients.childNodes[i]);
-  }
+socket.on("clientDisconnect", (connectedClients, disconnectedClients) => {
+  console.log("A client has disconnected! Here you get two new arrays. First a new array of connected clients:");
+  console.log(connectedClients);
+  console.log("And here an array of disconnected clients:");
+  console.log(disconnectedClients);
 })
 
 socket.on("submitClients", (data) => {
@@ -72,7 +70,7 @@ socket.on("submitClients", (data) => {
   for (let i = 0; i < data.length; i++) {
     const client = document.createElement("li");
 
-    client.innerHTML = data[i].name ? data[i].name : "Unnamed user.";
+    client.innerHTML = data[i].name ? data[i].name : "Unnamed user";
     listOfConnectedClients.appendChild(client);
     console.log('Connected client: ' + data[i].name);
 
@@ -83,6 +81,7 @@ socket.on("submitClients", (data) => {
 });
 
 socket.on("resetStatus", (data) => {
+  console.log("You successfully reset! Here is an updated array of connected clients")
   console.log(data);
 
   listOfClientStatus.innerHTML = "";
