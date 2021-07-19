@@ -1,5 +1,5 @@
 // Make socket connection back-end
-const socket = io();
+const socket = io("http://localhost:3000");
 
 const displayClient = document.getElementById("displayConnectedUser");
 

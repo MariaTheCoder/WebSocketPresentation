@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const socket = require("socket.io");
+const cors = require("cors");
 
 // App setup
 const config = require('./server.config.json');
@@ -9,9 +10,15 @@ const server = require("http").createServer(app);
 
 // Static files
 app.use(express.static("public"));
+app.use(cors());
 
 // socket setup
-const io = socket(server);
+const io = socket(server, {
+  cors: {
+    origin: "*", 
+    methods: ["GET", "POST"],
+  }
+});
 
 // store connected clients in an array
 const connectedClients = [];

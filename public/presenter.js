@@ -1,6 +1,6 @@
 
 // Make socket connection back-end
-const socket = io({
+const socket = io("http://localhost:3000", {
   query: {
     "my-secret": "I am the dictator!",
   },
