@@ -35,25 +35,7 @@ document.getElementById("reset").addEventListener("click", () => {
   socket.emit("reset");
 });
 
-socket.on("clientStatus", (data) => {
-  console.log(data);
-  listOfClientStatus.innerHTML = "";
-  
-  for (let i = 0; i < data.length; i++) {
-    const statusUpdate = document.createElement("li");
-
-    if(data[i].help === true) {
-      statusUpdate.innerHTML = data[i].name + '<p>&nbsp;needs help</p>'
-      listOfClientStatus.appendChild(statusUpdate);
-    } else if(data[i].help === false) {
-      statusUpdate.innerHTML = data[i].name + '<p>&nbsp;finished the task successfully</p>'
-      listOfClientStatus.appendChild(statusUpdate);
-    } else {
-      statusUpdate.innerHTML = data[i].name + '<p>&nbsp;has not updated their status yet</p>'
-      listOfClientStatus.appendChild(statusUpdate);
-    }
-  }
-})
+socket.on("clientStatus", updateClientStatus);
 
 socket.on("clientDisconnect", (connectedClients, disconnectedClients) => {
   listOfConnectedClients.innerHTML = "";
@@ -70,7 +52,7 @@ socket.on("clientDisconnect", (connectedClients, disconnectedClients) => {
     const currentStatus = document.createElement("li");
 
     if(connectedClients[i].help === true) {
-      currentStatus.innerHTML = connectedClients[i].name + '<p>&nbsp;needs help</p>';
+      currentStatus.innerHTML = connectedClients[i].name + '</p><p>&nbsp;needs help</p>';
       listOfClientStatus.appendChild(currentStatus);
     } else if(connectedClients[i].help === false) {
       currentStatus.innerHTML = connectedClients[i].name + '<p>&nbsp;finished the task successfully</p>';
@@ -99,7 +81,7 @@ socket.on("submitClients", (data) => {
 
     client.innerHTML = data[i].name ? data[i].name : "Unnamed user";
     listOfConnectedClients.appendChild(client);
-    console.log('Connected client: ' + data[i].name);
+    // console.log('Connected client: ' + data[i].name);
 
     const defaultStatus = document.createElement("li");
     defaultStatus.innerHTML = data[i].name + '<p>&nbsp;has not updated their status yet</p>';
@@ -120,6 +102,26 @@ socket.on("resetStatus", (data) => {
     listOfClientStatus.appendChild(resetClientStatus);
   });
 });
+
+function updateClientStatus(data) {
+  console.log(data);
+  listOfClientStatus.innerHTML = "";
+  
+  for (let i = 0; i < data.length; i++) {
+    const statusUpdate = document.createElement("li");
+
+    if(data[i].help === true) {
+      statusUpdate.innerHTML = '<i class="icon-attention"></i>' + data[i].name + '<p>&nbsp;needs help</p>'
+      listOfClientStatus.appendChild(statusUpdate);
+    } else if(data[i].help === false) {
+      statusUpdate.innerHTML = '<i class="icon-ok-circled"></i>' + data[i].name + '<p>&nbsp;finished the task successfully</p>'
+      listOfClientStatus.appendChild(statusUpdate);
+    } else {
+      statusUpdate.innerHTML = '<i class="icon-cancel-circled"></i>' + data[i].name + '<p>&nbsp;has not updated their status yet</p>'
+      listOfClientStatus.appendChild(statusUpdate);
+    }
+  }
+}
 
 // socket.on("submitPresenters", (data) => {
   
