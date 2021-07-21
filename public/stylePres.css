@@ -2,3 +2,19 @@ p {
     margin: 0;
     display: inline-block;
 }
+
+.icon-ok-circled {
+    color: green;
+    font-size: 6mm;
+}
+
+.icon-attention {
+    color: red;
+    font-size: 6mm;
+}
+
+.icon-cancel-circled {
+    color: rgb(27, 41, 41);
+    font-size: 6mm;
+}
+
