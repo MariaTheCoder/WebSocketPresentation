@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="stylePres.css">
-    <link rel="stylesheet" href="fontello.css">
-    <title>Presenter</title>
-    <script defer src="presenter.js"></script>
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
-  </head>
-  <body>
-    <button id="reset" class="buttons">Reset status</button>
-    <div class="container">
-      <h1>Icons and their meaning</h1>
-      <div class="icon-container">
-        <div class="status-icon-container">
-          <li><i class="icon-ok-circled"></i><p> indicates that a user has finished a task successfully</p></li>
-          <li><i class="icon-attention"></i><p> indicates that a user requested assistance</p></li>
-          <li><i class="icon-cancel-circled"></i><p> indicates that a user has disconnected</p></li>
-        </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylePres.css">
+  <link rel="stylesheet" href="fontello.css">
+  <title>Presenter</title>
+  <script defer src="presenter.js"></script>
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+  <button id="reset" class="buttons">Reset status</button>
+  <div class="container">
+    <h1>Icons and their meaning</h1>
+    <div class="icon-container">
+      <div class="status-icon-container">
+        <li><i class="icon-ok-circled"></i>
+          <p> finished a task successfully</p>
+        </li>
+        <li><i class="icon-attention"></i>
+          <p> requests assistance</p>
+        </li>
+        <li><i class="icon-cancel-circled"></i>
+          <p> has disconnected</p>
+        </li>
       </div>
     </div>
-    <!-- <div>
+  </div>
+  <!-- <div>
       <h1>List of connected clients</h1>
       <ul id="connected_clients"></ul>
     </div> -->
-    <div>
-      <h1>Status of connected clients</h1>
-      <ul id="client_status"></ul>
-    </div>
-  </body>
+  <div>
+    <h1>Status of connected clients</h1>
+    <ul id="client_status"></ul>
+  </div>
+</body>
+
 </html>

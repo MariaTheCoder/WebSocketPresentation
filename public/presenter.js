@@ -21,10 +21,10 @@ const listOfClientStatus = document.getElementById("client_status");
 //   // get input name and store in constant variable
 //   const name = document.getElementById("presenter_name").value;
 
-  // socket.emit("submitPresenters", {
-  //   id: socket.id,
-  //   name: name,
-  // });
+// socket.emit("submitPresenters", {
+//   id: socket.id,
+//   name: name,
+// });
 
 //   const presenter = document.createElement("li");
 //   presenter.innerHTML = "You are connected as: " + name;
@@ -66,24 +66,24 @@ socket.on("resetStatus", (data) => {
   data.forEach(element => {
     const resetClientStatus = document.createElement("li");
 
-    resetClientStatus.innerHTML = element.name + '<p>&nbsp;has not updated their status yet</p>'; 
+    resetClientStatus.innerHTML = element.name + '<p>&nbsp;has not updated their status yet</p>';
     listOfClientStatus.appendChild(resetClientStatus);
   });
 });
 
 function updateClientStatus(data) {
   listOfClientStatus.innerHTML = "";
-  
+
   for (let i = 0; i < data.length; i++) {
     const statusUpdate = document.createElement("li");
 
-    if(data[i].disconnect === true) {
-    statusUpdate.innerHTML = '<i class="icon-cancel-circled"></i>' + data[i].name + '<p>&nbsp;has disconnected</p>'
-    listOfClientStatus.appendChild(statusUpdate);
-    } else if(data[i].help === true) {
+    if (data[i].disconnect === true) {
+      statusUpdate.innerHTML = '<i class="icon-cancel-circled"></i>' + data[i].name + '<p>&nbsp;has disconnected</p>'
+      listOfClientStatus.appendChild(statusUpdate);
+    } else if (data[i].help === true) {
       statusUpdate.innerHTML = '<i class="icon-attention"></i>' + data[i].name + '<p>&nbsp;needs help</p>'
       listOfClientStatus.appendChild(statusUpdate);
-    } else if(data[i].help === false) {
+    } else if (data[i].help === false) {
       statusUpdate.innerHTML = '<i class="icon-ok-circled"></i>' + data[i].name + '<p>&nbsp;finished the task successfully</p>'
       listOfClientStatus.appendChild(statusUpdate);
     } else {
@@ -94,7 +94,7 @@ function updateClientStatus(data) {
 }
 
 // socket.on("submitPresenters", (data) => {
-  
+
 //   for (let i = 0; i < data.length; i++) {
 //     const presenter = document.createElement("li");
 //     presenter.innerHTML = data[i].name;

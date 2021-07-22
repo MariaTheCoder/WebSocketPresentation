@@ -6,11 +6,11 @@ const displayClient = document.getElementById("displayConnectedUser");
 document.getElementById("submit_btn").addEventListener("click", () => {
   displayClient.innerHTML = "";
 
-  if(document.getElementById("name_input").value === "") alert("Please type in a name before submitting");
+  if (document.getElementById("name_input").value === "") alert("Please type in a name before submitting");
 
   const name = document.getElementById("name_input").value;
 
-  if(document.getElementById("submit_btn").innerText === 'Submit') {    
+  if (document.getElementById("submit_btn").innerText === 'Submit') {
     // change text of button upon submitted name
     document.getElementById("submit_btn").innerText = 'Change name';
   };
