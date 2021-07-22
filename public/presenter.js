@@ -6,7 +6,7 @@ const socket = io("http://localhost:3000", {
   },
 });
 
-const listOfConnectedClients = document.getElementById("connected_clients");
+// const listOfConnectedClients = document.getElementById("connected_clients");
 const listOfClientStatus = document.getElementById("client_status");
 // const displayPresenter = document.getElementById("displayConnectedPresenter");
 
@@ -37,50 +37,18 @@ document.getElementById("reset").addEventListener("click", () => {
 
 socket.on("clientStatus", updateClientStatus);
 
-socket.on("clientDisconnect", (connectedClients, disconnectedClients) => {
-  listOfConnectedClients.innerHTML = "";
-  listOfClientStatus.innerHTML = "";
-
-  for (let i = 0; i < connectedClients.length; i++) {
-
-    const client = document.createElement("li");
-
-    client.innerHTML = connectedClients[i].name ? connectedClients[i].name : "Unnamed user";
-    listOfConnectedClients.appendChild(client);
-
-
-    const currentStatus = document.createElement("li");
-
-    if(connectedClients[i].help === true) {
-      currentStatus.innerHTML = connectedClients[i].name + '</p><p>&nbsp;needs help</p>';
-      listOfClientStatus.appendChild(currentStatus);
-    } else if(connectedClients[i].help === false) {
-      currentStatus.innerHTML = connectedClients[i].name + '<p>&nbsp;finished the task successfully</p>';
-      listOfClientStatus.appendChild(currentStatus);
-    } else {
-      currentStatus.innerHTML = connectedClients[i].name + '<p>&nbsp;has not updated their status yet</p>';
-      listOfClientStatus.appendChild(currentStatus);
-    }
-
-  };
-
-  console.log("A client has disconnected! Here you get two new arrays. First a new array of connected clients:");
-  console.log(connectedClients);
-  console.log("And here an array of disconnected clients:");
-  console.log(disconnectedClients);
-})
-
+socket.on("clientDisconnect", updateClientStatus);
 
 socket.on("submitClients", (data) => {
 
-  listOfConnectedClients.innerHTML = "";
+  // listOfConnectedClients.innerHTML = "";
   listOfClientStatus.innerHTML = "";
 
   for (let i = 0; i < data.length; i++) {
     const client = document.createElement("li");
 
     client.innerHTML = data[i].name ? data[i].name : "Unnamed user";
-    listOfConnectedClients.appendChild(client);
+    // listOfConnectedClients.appendChild(client);
     // console.log('Connected client: ' + data[i].name);
 
     const defaultStatus = document.createElement("li");
@@ -104,20 +72,22 @@ socket.on("resetStatus", (data) => {
 });
 
 function updateClientStatus(data) {
-  console.log(data);
   listOfClientStatus.innerHTML = "";
   
   for (let i = 0; i < data.length; i++) {
     const statusUpdate = document.createElement("li");
 
-    if(data[i].help === true) {
+    if(data[i].disconnect === true) {
+    statusUpdate.innerHTML = '<i class="icon-cancel-circled"></i>' + data[i].name + '<p>&nbsp;has disconnected</p>'
+    listOfClientStatus.appendChild(statusUpdate);
+    } else if(data[i].help === true) {
       statusUpdate.innerHTML = '<i class="icon-attention"></i>' + data[i].name + '<p>&nbsp;needs help</p>'
       listOfClientStatus.appendChild(statusUpdate);
     } else if(data[i].help === false) {
       statusUpdate.innerHTML = '<i class="icon-ok-circled"></i>' + data[i].name + '<p>&nbsp;finished the task successfully</p>'
       listOfClientStatus.appendChild(statusUpdate);
     } else {
-      statusUpdate.innerHTML = '<i class="icon-cancel-circled"></i>' + data[i].name + '<p>&nbsp;has not updated their status yet</p>'
+      statusUpdate.innerHTML = data[i].name + '<p>&nbsp;has not updated their status yet</p>'
       listOfClientStatus.appendChild(statusUpdate);
     }
   }
