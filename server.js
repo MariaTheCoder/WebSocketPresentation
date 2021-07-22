@@ -23,7 +23,7 @@ const io = socket(server, {
 // store connected clients in an array
 const connectedClients = [];
 const connectedPresenters = [];
-const disconnectedClients = [];
+// const disconnectedClients = [];
 
 app.get("/", function (req, res) {
   res.sendFile(path.resolve("./public/clients.html"));
@@ -41,6 +41,7 @@ io.on("connection", (socket) => {
       connectedClients.forEach(element => {
         element.finished = "reset";
         element.help = "reset";
+        element.disconnect = "reset";
       });
 
       io.emit("resetStatus", connectedClients);
@@ -115,16 +116,16 @@ function clientDisconnect() {
   
   for (let i = 0; i < connectedClients.length; i++) {
     const client = connectedClients[i];
-    // console.log(client.id + "just disconnected");
+    console.log(client.id + "just disconnected");
   
     if(client.id === this.id) {
-      connectedClients.splice(i, 1);
-      disconnectedClients.push(client);
+      client.disconnect = true;
+      console.log(client.disconnect);
     }
   }
 
   connectedPresenters.forEach(presenter => {
     console.log("presenter gets ", connectedClients);
-    presenter.emit("clientDisconnect", connectedClients, disconnectedClients);
+    presenter.emit("clientDisconnect", connectedClients);
   });
 }
