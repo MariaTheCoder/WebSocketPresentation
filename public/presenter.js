@@ -52,7 +52,7 @@ socket.on("submitClients", (data) => {
     // console.log('Connected client: ' + data[i].name);
 
     const defaultStatus = document.createElement("li");
-    defaultStatus.innerHTML = data[i].name + '<p>&nbsp;has not updated their status yet</p>';
+    defaultStatus.innerHTML = `<p>${data[i].name} has not updated their status yet</p>`;
     listOfClientStatus.appendChild(defaultStatus);
   }
 });
@@ -66,7 +66,7 @@ socket.on("resetStatus", (data) => {
   data.forEach(element => {
     const resetClientStatus = document.createElement("li");
 
-    resetClientStatus.innerHTML = element.name + '<p>&nbsp;has not updated their status yet</p>';
+    resetClientStatus.innerHTML = `${element.name} has not updated their status yet</p>`;
     listOfClientStatus.appendChild(resetClientStatus);
   });
 });
@@ -78,16 +78,16 @@ function updateClientStatus(data) {
     const statusUpdate = document.createElement("li");
 
     if (data[i].disconnect === true) {
-      statusUpdate.innerHTML = '<i class="icon-cancel-circled"></i>' + data[i].name + '<p>&nbsp;has disconnected</p>'
+      statusUpdate.innerHTML = `<i class="icon-cancel-circled"></i><p>&nbsp;${data[i].name} has disconnected</p>`
       listOfClientStatus.appendChild(statusUpdate);
     } else if (data[i].help === true) {
-      statusUpdate.innerHTML = '<i class="icon-attention"></i>' + data[i].name + '<p>&nbsp;needs help</p>'
+      statusUpdate.innerHTML = `<i class="icon-attention"></i><p>&nbsp;${data[i].name} needs help</p>`
       listOfClientStatus.appendChild(statusUpdate);
     } else if (data[i].help === false) {
-      statusUpdate.innerHTML = '<i class="icon-ok-circled"></i>' + data[i].name + '<p>&nbsp;finished the task successfully</p>'
+      statusUpdate.innerHTML = `<i class="icon-ok-circled"></i><p>&nbsp;${data[i].name} finished the task successfully</p>`
       listOfClientStatus.appendChild(statusUpdate);
     } else {
-      statusUpdate.innerHTML = data[i].name + '<p>&nbsp;has not updated their status yet</p>'
+      statusUpdate.innerHTML = `<p>&nbsp;${data[i].name} has not updated their status yet</p>`
       listOfClientStatus.appendChild(statusUpdate);
     }
   }
