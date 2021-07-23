@@ -15,7 +15,7 @@ app.use(cors());
 // socket setup
 const io = socket(server, {
   cors: {
-    origin: "*", 
+    origin: "*",
     methods: ["GET", "POST"],
   }
 });
@@ -48,7 +48,7 @@ io.on("connection", (socket) => {
     });
 
     console.log(connectedClients);
-    presenter.emit("submitClients", connectedClients); 
+    presenter.emit("submitClients", connectedClients);
     connectedPresenters.push(presenter);
 
   } else {
@@ -58,12 +58,12 @@ io.on("connection", (socket) => {
     socket.on("status", (data) => {
 
       connectedClients.forEach(element => {
-        if(element.id === socket.id) {
-          element.finished = data.finished; 
-          element.help = data.help;    
+        if (element.id === socket.id) {
+          element.finished = data.finished;
+          element.help = data.help;
         }
       });
-    
+
       for (let i = 0; i < connectedPresenters.length; i++) {
         const presenter = connectedPresenters[i];
         presenter.emit("clientStatus", connectedClients);
@@ -77,14 +77,6 @@ io.on("connection", (socket) => {
       name: "Unnamed user",
     });
   }
-
-  // socket.on("submitPresenters", (data) => {
-  //   for (let i = 0; i < connectedPresenters.length; i++) {
-  //     if(connectedPresenters[i].id === socket.id) connectedPresenters[i].name = data.name;
-  //   }
-  //   console.log(connectedPresenters);
-  // });
-
 });
 
 server.listen(config.port, () => {
@@ -98,7 +90,7 @@ server.listen(config.port, () => {
  */
 function submitClients(data) {
   for (let i = 0; i < connectedClients.length; i++) {
-    if(connectedClients[i].id === this.id) connectedClients[i].name = data.name;
+    if (connectedClients[i].id === this.id) connectedClients[i].name = data.name;
   }
   console.log(connectedClients);
 
@@ -113,12 +105,12 @@ function submitClients(data) {
  */
 function clientDisconnect() {
   console.log("disconnect");
-  
+
   for (let i = 0; i < connectedClients.length; i++) {
     const client = connectedClients[i];
     console.log(client.id + "just disconnected");
-  
-    if(client.id === this.id) {
+
+    if (client.id === this.id) {
       client.disconnect = true;
       console.log(client.disconnect);
     }
