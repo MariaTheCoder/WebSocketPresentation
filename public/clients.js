@@ -1,9 +1,16 @@
 // Make socket connection back-end
 const socket = io("http://localhost:3000");
 
+/*
+Input field, submit button and are of display for input assigned to constant variables 
+*/
 const displayClient = document.getElementById("displayConnectedUser");
-
+const inputField = document.getElementById("name_input");
 const submitButton = document.getElementById("submit_btn");
+
+/*
+Task related buttons assigned to constant variables
+*/
 const greenButton = document.getElementById("green_btn");
 const redButton = document.getElementById("red_btn");
 const orangeButton = document.getElementById("orange_btn");
@@ -20,7 +27,7 @@ Upon click on submit button, enable the above disabled buttons
 submitButton.addEventListener("click", () => {
 
   // check if input field has been filled out upon click on submit button. If not, alert client
-  if (document.getElementById("name_input").value === "") {
+  if (inputField.value === "") {
     alert("Please type in a name before submitting");
 
   } else {
@@ -32,7 +39,7 @@ submitButton.addEventListener("click", () => {
     displayClient.innerHTML = "";
 
     // save input in a constant variable
-    const name = document.getElementById("name_input").value;
+    const name = inputField.value;
 
     if (submitButton.innerText === 'Submit') {
       // change text of button upon submitted name
