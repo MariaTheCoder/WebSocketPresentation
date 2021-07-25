@@ -51,6 +51,10 @@ io.on("connection", (socket) => {
     presenter.emit("submitClients", connectedClients);
     connectedPresenters.push(presenter);
 
+    presenter.on("removedClients", (listOfClients) => {
+      presenter.emit("newClientList", listOfClients)
+    });
+
   } else {
 
     socket.on("submitClients", submitClients);

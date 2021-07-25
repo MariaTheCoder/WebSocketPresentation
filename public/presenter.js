@@ -46,6 +46,10 @@ socket.on("resetStatus", (data) => {
   });
 });
 
+socket.on("newClientList", (updatedClientList) => {
+  updateClientStatus(updatedClientList);
+});
+
 function updateClientStatus(data) {
   listOfClientStatus.innerHTML = "";
 
@@ -77,7 +81,8 @@ function removeClientFromList(list) {
       setTimeout(() => {
         list.splice(i, 1);
         updateClientStatus(list);
-      }, 2000 * 60);
+        socket.emit('removedClients', list);
+      }, 2000);
     }
   }
 }
