@@ -53,7 +53,8 @@ function updateClientStatus(data) {
     const statusUpdate = document.createElement("li");
 
     if (data[i].disconnect === true) {
-      statusUpdate.innerHTML = `<i class="icon-cancel-circled"></i><p>&nbsp;${data[i].name} has disconnected</p>`
+      removeClientFromList(data);
+      statusUpdate.innerHTML = `<i class="icon-cancel-circled"></i><p style="text-decoration: line-through">&nbsp;${data[i].name} has disconnected</p>`
       listOfClientStatus.appendChild(statusUpdate);
     } else if (data[i].help === true) {
       statusUpdate.innerHTML = `<i class="icon-attention"></i><p>&nbsp;${data[i].name} needs help</p>`
@@ -68,5 +69,17 @@ function updateClientStatus(data) {
   }
 }
 
+function removeClientFromList(list) {
+  for (let i = 0; i < list.length; i++) {
+    const client = list[i];
+
+    if (client.disconnect === true) {
+      setTimeout(() => {
+        list.splice(i, 1);
+        updateClientStatus(list);
+      }, 2000 * 60);
+    }
+  }
+}
 
 
