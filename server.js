@@ -97,7 +97,7 @@ function submitClients(data) {
   for (let i = 0; i < connectedClients.length; i++) {
     if (connectedClients[i].id === this.id) connectedClients[i].name = data.name;
   }
-  console.log(connectedClients);
+  // console.log(connectedClients);
 
   for (let i = 0; i < connectedPresenters.length; i++) {
     const presenter = connectedPresenters[i];
@@ -109,20 +109,20 @@ function submitClients(data) {
  * Handler for the 'disconnect' websocket event. Deletes a disconnected client from array connectedClients
  */
 function clientDisconnect() {
-  console.log("disconnect");
+  // console.log("disconnect");
 
   for (let i = 0; i < connectedClients.length; i++) {
     const client = connectedClients[i];
-    console.log(client.id + "just disconnected");
+    // console.log(client.id + "just disconnected");
 
     if (client.id === this.id) {
       client.disconnect = true;
-      console.log(client.disconnect);
+      // console.log(client.disconnect);
     }
   }
 
   connectedPresenters.forEach(presenter => {
-    console.log("presenter gets ", connectedClients);
+    // console.log("presenter gets ", connectedClients);
     presenter.emit("clientDisconnect", connectedClients);
   });
 }
