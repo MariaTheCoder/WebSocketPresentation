@@ -8,7 +8,6 @@ const socket = io("http://localhost:3000", {
 
 const listOfClientStatus = document.getElementById("client_status");
 
-
 document.getElementById("reset").addEventListener("click", () => {
   socket.emit("reset");
 });
@@ -17,20 +16,7 @@ socket.on("clientStatus", updateClientStatus);
 
 socket.on("clientDisconnect", updateClientStatus);
 
-socket.on("submitClients", (data) => {
-
-  listOfClientStatus.innerHTML = "";
-
-  for (let i = 0; i < data.length; i++) {
-    const client = document.createElement("li");
-
-    client.innerHTML = data[i].name ? data[i].name : "Unnamed user";
-
-    const defaultStatus = document.createElement("li");
-    defaultStatus.innerHTML = `<p>${data[i].name} has not updated their status yet</p>`;
-    listOfClientStatus.appendChild(defaultStatus);
-  }
-});
+socket.on("submitClients", updateClientStatus);
 
 socket.on("resetStatus", (data) => {
   console.log("You successfully reset! Here is an updated array of connected clients")
@@ -49,6 +35,20 @@ socket.on("resetStatus", (data) => {
 socket.on("newClientList", (updatedClientList) => {
   updateClientStatus(updatedClientList);
 });
+
+// function defaultClientStatus(connectedClients) {
+//   listOfClientStatus.innerHTML = "";
+
+//   for (let i = 0; i < connectedClients.length; i++) {
+//     const client = document.createElement("li");
+
+//     client.innerHTML = connectedClients[i].name ? connectedClients[i].name : "Unnamed user";
+
+//     const defaultStatus = document.createElement("li");
+//     defaultStatus.innerHTML = `<p>${connectedClients[i].name} has not updated their status yet</p>`;
+//     listOfClientStatus.appendChild(defaultStatus);
+//   }
+// }
 
 function updateClientStatus(data) {
   listOfClientStatus.innerHTML = "";
