@@ -18,11 +18,17 @@
 #green_btn:hover {
   background-color: rgb(8, 117, 8);
 }
+#green_btn:disabled {
+  background-color: grey;
+}
 #red_btn {
   background-color: rgb(245, 65, 65);
 }
 #red_btn:hover {
   background-color: rgb(196, 26, 26);
+}
+#red_btn:disabled {
+  background-color: grey;
 }
 #orange_btn {
   background-color: rgba(255, 153, 0, 0.993);

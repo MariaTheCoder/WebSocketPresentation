@@ -2,12 +2,33 @@
 const socket = io("http://localhost:3000");
 
 const displayClient = document.getElementById("displayConnectedUser");
+const greenButton = document.getElementById("green_btn");
+const redButton = document.getElementById("red_btn");
 
+/*
+By feault, have green and red button disabled
+*/
+greenButton.disabled = true;
+redButton.disabled = true;
+
+/*
+Upon click on submit button, enable the above disabled buttons
+*/
 document.getElementById("submit_btn").addEventListener("click", () => {
+
+  // first enable task-buttons (a.k.a. green and red button)
+  enableButtons();
+
+  // clear display confirming submitted name
   displayClient.innerHTML = "";
 
-  if (document.getElementById("name_input").value === "") alert("Please type in a name before submitting");
+  // check if input field has been filled out upon click on submit button. If not, alert client
+  if (document.getElementById("name_input").value === "") {
+    alert("Please type in a name before submitting");
+    window.location.reload();
+  }
 
+  // save input in a constant variable
   const name = document.getElementById("name_input").value;
 
   if (document.getElementById("submit_btn").innerText === 'Submit') {
@@ -26,7 +47,7 @@ document.getElementById("submit_btn").addEventListener("click", () => {
 });
 
 // Emit events
-document.getElementById("green_btn").addEventListener("click", () => {
+greenButton.addEventListener("click", () => {
   socket.emit("status", {
     id: socket.id,
     finished: true,
@@ -35,8 +56,8 @@ document.getElementById("green_btn").addEventListener("click", () => {
 });
 
 // Emit events
-document.getElementById("red_btn").addEventListener("click", () => {
-  document.getElementById("red_btn").style.display = "none";
+redButton.addEventListener("click", () => {
+  redButton.style.display = "none";
   document.getElementById("orange_btn").style.display = "inline-flex";
 
   socket.emit("status", {
@@ -48,13 +69,13 @@ document.getElementById("red_btn").addEventListener("click", () => {
 
 // Emit events
 document.getElementById("orange_btn").addEventListener("click", () => {
-  document.getElementById("red_btn").style.display = "inline-flex";
+  redButton.style.display = "inline-flex";
   document.getElementById("orange_btn").style.display = "none";
 
   socket.emit("status", {
     id: socket.id,
-    finished: true,
-    help: false,
+    finished: "",
+    help: "",
   });
 })
 
@@ -63,3 +84,8 @@ socket.on("resetStatus", () => {
   document.getElementById("red_btn").style.display = "inline-flex";
   document.getElementById("orange_btn").style.display = "none";
 });
+
+function enableButtons() {
+  greenButton.disabled = false;
+  redButton.disabled = false;
+}
