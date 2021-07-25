@@ -53,7 +53,6 @@ submitButton.addEventListener("click", () => {
 // Emit events
 greenButton.addEventListener("click", () => {
   socket.emit("status", {
-    id: socket.id,
     finished: true,
     help: false,
   });
@@ -65,7 +64,6 @@ redButton.addEventListener("click", () => {
   orangeButton.style.display = "inline-flex";
 
   socket.emit("status", {
-    id: socket.id,
     finished: false,
     help: true,
   });
@@ -77,7 +75,6 @@ orangeButton.addEventListener("click", () => {
   orangeButton.style.display = "none";
 
   socket.emit("status", {
-    id: socket.id,
     finished: "",
     help: "",
   });
