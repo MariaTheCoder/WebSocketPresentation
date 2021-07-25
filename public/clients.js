@@ -19,34 +19,35 @@ Upon click on submit button, enable the above disabled buttons
 */
 submitButton.addEventListener("click", () => {
 
-  // first enable task-buttons (a.k.a. green and red button)
-  enableButtons();
-
-  // clear display confirming submitted name
-  displayClient.innerHTML = "";
-
   // check if input field has been filled out upon click on submit button. If not, alert client
   if (document.getElementById("name_input").value === "") {
     alert("Please type in a name before submitting");
-    // window.location.reload();
+
+  } else {
+
+    // first enable task-buttons (a.k.a. green and red button)
+    enableButtons();
+
+    // clear display confirming submitted name
+    displayClient.innerHTML = "";
+
+    // save input in a constant variable
+    const name = document.getElementById("name_input").value;
+
+    if (submitButton.innerText === 'Submit') {
+      // change text of button upon submitted name
+      submitButton.innerText = 'Change name';
+    };
+
+    socket.emit("submitClients", {
+      id: socket.id,
+      name: name,
+    });
+
+    const connectedClient = document.createElement("li");
+    connectedClient.innerHTML = "You are connected as: " + name;
+    displayClient.appendChild(connectedClient);
   }
-
-  // save input in a constant variable
-  const name = document.getElementById("name_input").value;
-
-  if (submitButton.innerText === 'Submit') {
-    // change text of button upon submitted name
-    submitButton.innerText = 'Change name';
-  };
-
-  socket.emit("submitClients", {
-    id: socket.id,
-    name: name,
-  });
-
-  const connectedClient = document.createElement("li");
-  connectedClient.innerHTML = "You are connected as: " + name;
-  displayClient.appendChild(connectedClient);
 });
 
 // Emit events
