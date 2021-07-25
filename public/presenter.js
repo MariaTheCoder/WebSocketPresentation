@@ -12,6 +12,8 @@ document.getElementById("reset").addEventListener("click", () => {
   socket.emit("reset");
 });
 
+socket.on("clientHasConnected", defaultClientStatus);
+
 socket.on("clientStatus", updateClientStatus);
 
 socket.on("clientDisconnect", updateClientStatus);
@@ -36,19 +38,19 @@ socket.on("newClientList", (updatedClientList) => {
   updateClientStatus(updatedClientList);
 });
 
-// function defaultClientStatus(connectedClients) {
-//   listOfClientStatus.innerHTML = "";
+function defaultClientStatus(connectedClients) {
+  listOfClientStatus.innerHTML = "";
 
-//   for (let i = 0; i < connectedClients.length; i++) {
-//     const client = document.createElement("li");
+  for (let i = 0; i < connectedClients.length; i++) {
+    const client = document.createElement("li");
 
-//     client.innerHTML = connectedClients[i].name ? connectedClients[i].name : "Unnamed user";
+    client.innerHTML = connectedClients[i].name ? connectedClients[i].name : "Unnamed user";
 
-//     const defaultStatus = document.createElement("li");
-//     defaultStatus.innerHTML = `<p>${connectedClients[i].name} has not updated their status yet</p>`;
-//     listOfClientStatus.appendChild(defaultStatus);
-//   }
-// }
+    const defaultStatus = document.createElement("li");
+    defaultStatus.innerHTML = `<p>${connectedClients[i].name} has not updated their status yet</p>`;
+    listOfClientStatus.appendChild(defaultStatus);
+  }
+}
 
 function updateClientStatus(data) {
   listOfClientStatus.innerHTML = "";

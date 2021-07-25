@@ -47,7 +47,9 @@ io.on("connection", (socket) => {
       io.emit("resetStatus", connectedClients);
     });
 
-    console.log(connectedClients);
+    presenter.emit("clientHasConnected", connectedClients)
+
+    // console.log(connectedClients);
     presenter.emit("submitClients", connectedClients);
     connectedPresenters.push(presenter);
 
