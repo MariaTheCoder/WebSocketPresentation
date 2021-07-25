@@ -21,7 +21,7 @@ const io = socket(server, {
 });
 
 // store connected clients in an array
-const connectedClients = [];
+let connectedClients = [];
 const connectedPresenters = [];
 // const disconnectedClients = [];
 
@@ -52,7 +52,8 @@ io.on("connection", (socket) => {
     connectedPresenters.push(presenter);
 
     presenter.on("removedClients", (listOfClients) => {
-      presenter.emit("newClientList", listOfClients)
+      connectedClients = listOfClients;
+      presenter.emit("newClientList", connectedClients)
     });
 
   } else {

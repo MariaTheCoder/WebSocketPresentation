@@ -60,4 +60,6 @@ document.getElementById("orange_btn").addEventListener("click", () => {
 
 socket.on("resetStatus", () => {
   console.log("The Dictator has resetted everything!");
+  document.getElementById("red_btn").style.display = "inline-flex";
+  document.getElementById("orange_btn").style.display = "none";
 });
