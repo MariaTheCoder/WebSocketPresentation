@@ -25,26 +25,23 @@ redButton.disabled = true;
 Upon click on submit button, enable the above disabled buttons
 */
 submitButton.addEventListener("click", () => {
-
   // check if input field has been filled out upon click on submit button. If not, alert client
   if (inputField.value === "") {
     alert("Please type in a name before submitting");
-
   } else {
-
     // first enable task-buttons (a.k.a. green and red button)
     enableButtons();
 
     // clear display confirming submitted name
-    displayClient.innerHTML = "";
+    displayClient.innerText = "";
 
     // save input in a constant variable
     const name = inputField.value;
 
-    if (submitButton.innerText === 'Submit') {
+    if (submitButton.innerText === "Submit") {
       // change text of button upon submitted name
-      submitButton.innerText = 'Change name';
-    };
+      submitButton.innerText = "Change name";
+    }
 
     socket.emit("submitClients", {
       id: socket.id,
@@ -52,7 +49,7 @@ submitButton.addEventListener("click", () => {
     });
 
     const connectedClient = document.createElement("li");
-    connectedClient.innerHTML = "You are connected as: " + name;
+    connectedClient.innerText = "You are connected as: " + name;
     displayClient.appendChild(connectedClient);
   }
 });
@@ -85,7 +82,7 @@ orangeButton.addEventListener("click", () => {
     finished: "",
     help: "",
   });
-})
+});
 
 socket.on("resetStatus", () => {
   console.log("The Dictator has resetted everything!");
