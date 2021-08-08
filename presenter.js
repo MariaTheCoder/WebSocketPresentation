@@ -60,16 +60,41 @@ function updateClientStatus(data) {
 
     if (data[i].disconnect === true) {
       removeClientFromList(data);
-      statusUpdate.innerHTML = `<i class="icon-cancel-circled"></i><p style="text-decoration: line-through">&nbsp;${data[i].name} has disconnected</p>`
+
+      const icon = document.createElement("i");
+      icon.classList.add("icon-cancel-circled");
+      statusUpdate.appendChild(icon);
+
+      const text = document.createElement("p");
+      text.innerText = ` ${data[i].name} has disconnected`;
+      statusUpdate.appendChild(text);
+
       listOfClientStatus.appendChild(statusUpdate);
     } else if (data[i].help === true) {
-      statusUpdate.innerHTML = `<i class="icon-attention"></i><p>&nbsp;${data[i].name} needs help</p>`
+      const icon = document.createElement("i");
+      icon.classList.add("icon-attention");
+      statusUpdate.appendChild(icon);
+
+      const text = document.createElement("p");
+      text.innerText = ` ${data[i].name} needs help`;
+      statusUpdate.appendChild(text);
+
       listOfClientStatus.appendChild(statusUpdate);
     } else if (data[i].help === false) {
-      statusUpdate.innerHTML = `<i class="icon-ok-circled"></i><p>&nbsp;${data[i].name} finished the task successfully</p>`
+      const icon = document.createElement("i");
+      icon.classList.add("icon-ok-circled");
+      statusUpdate.appendChild(icon);
+
+      const text = document.createElement("p");
+      text.innerText = ` ${data[i].name} finished the task successfully`;
+      statusUpdate.appendChild(text);
+
       listOfClientStatus.appendChild(statusUpdate);
     } else {
-      statusUpdate.innerHTML = `<p>&nbsp;${data[i].name} has not updated their status yet</p>`
+      const text = document.createElement("p");
+      text.innerText = ` ${data[i].name} has not updated their status yet`;
+      statusUpdate.appendChild(text);
+
       listOfClientStatus.appendChild(statusUpdate);
     }
   }
