@@ -47,7 +47,9 @@ function defaultClientStatus(connectedClients) {
     client.innerHTML = connectedClients[i].name ? connectedClients[i].name : "Unnamed user";
 
     const defaultStatus = document.createElement("li");
-    defaultStatus.innerHTML = `<p>${connectedClients[i].name} has not updated their status yet</p>`;
+    const text = document.createElement("p");
+    text.innerText = ` ${connectedClients[i].name} has not updated their status yet`;
+    defaultStatus.appendChild(text);
     listOfClientStatus.appendChild(defaultStatus);
   }
 }
