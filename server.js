@@ -8,6 +8,8 @@ const config = require('./server.config.json');
 const app = express();
 const server = require("http").createServer(app);
 
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
+
 // Static files
 app.use(express.static("public"));
 app.use(cors());
