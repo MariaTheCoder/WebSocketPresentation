@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const socket = require("socket.io");
 const cors = require("cors");
+const debug = require('debug')('app:startup');
 
 // App setup
 const config = require('./server.config.json');
@@ -51,7 +52,6 @@ io.on("connection", (socket) => {
 
     presenter.emit("clientHasConnected", connectedClients)
 
-    // console.log(connectedClients);
     presenter.emit("submitClients", connectedClients);
     connectedPresenters.push(presenter);
 
@@ -101,7 +101,7 @@ function submitClients(data) {
   for (let i = 0; i < connectedClients.length; i++) {
     if (connectedClients[i].id === this.id) connectedClients[i].name = data.name;
   }
-  // console.log(connectedClients);
+  debug("List of connected clients: ", connectedClients);
 
   for (let i = 0; i < connectedPresenters.length; i++) {
     const presenter = connectedPresenters[i];
@@ -113,20 +113,19 @@ function submitClients(data) {
  * Handler for the 'disconnect' websocket event. Deletes a disconnected client from array connectedClients
  */
 function clientDisconnect() {
-  // console.log("disconnect");
+  debug("A client has disconnected");
 
   for (let i = 0; i < connectedClients.length; i++) {
     const client = connectedClients[i];
-    // console.log(client.id + "just disconnected");
 
     if (client.id === this.id) {
+      debug(client.name + " just disconnected!");
       client.disconnect = true;
-      // console.log(client.disconnect);
     }
   }
 
   connectedPresenters.forEach(presenter => {
-    // console.log("presenter gets ", connectedClients);
+    debug("Updated list of connected clients sent to Presenters: ", connectedClients);
     presenter.emit("clientDisconnect", connectedClients);
   });
 }
